@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
 export default function Home() {
+  const [selected, setSelected] = useState([]);
   const [checkeds, setCheckeds] = useState([]);
 
   const [state, setState] = useState({
@@ -42,8 +44,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    console.log(checkeds);
-  }, [checkeds]);
+    console.log(state);
+  }, [state]);
 
   function treatCheckeds(checked, id) {
     if (checked) {
@@ -55,10 +57,53 @@ export default function Home() {
 
   return (
     <>
+      <Formik
+        initialValues={{ nome: "" }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          if (selected.length > 0) {
+            setState((prevState) => ({
+              ...prevState,
+              imoveis: {
+                ...prevState.imoveis,
+              },
+            }));
+            resetForm();
+          } else {
+            alert("Selecione ao menos um imóvel");
+          }
+          setSubmitting(false);
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <Field name="nome" />
+            <button type="submit" disabled={isSubmitting}>
+              Submit
+            </button>
+          </Form>
+        )}
+      </Formik>
+
       <div>
         {state.users.map((item, index) => {
+          const [active, setActive] = useState(false);
+
           return (
-            <div style={{ display: "flex" }}>
+            <div
+              onClick={() => {
+                setActive(!active);
+                !active
+                  ? setSelected((prevState) => [...prevState, item.id])
+                  : setSelected(selected.filter((s) => s !== item.id));
+              }}
+              style={{
+                display: "flex",
+                width: "200px",
+                border: "1px solid white",
+                color: active ? "white" : "black",
+                backgroundColor: active ? "red" : "white",
+              }}
+            >
               <input
                 type="checkbox"
                 name={item.nome}
@@ -72,6 +117,11 @@ export default function Home() {
       {previewImoveis &&
         previewImoveis?.map((item) => {
           return <p>{item}</p>;
+        })}
+
+      {selected !== [] &&
+        selected?.map((item) => {
+          return item;
         })}
     </>
   );
