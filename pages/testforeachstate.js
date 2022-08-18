@@ -36,6 +36,7 @@ export default function Home() {
 
   const previewImoveis = handleFilter();
   function handleFilter() {
+    
     var selectedsIds = [];
     selected.forEach((item) => {
       item.id_imoveis.forEach((id) => {
