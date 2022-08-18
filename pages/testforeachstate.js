@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import onlyUnique from "../public/useful/utils";
 
 export default function Home() {
   const [selected, setSelected] = useState([]);
@@ -33,19 +34,46 @@ export default function Home() {
     ],
   });
 
-  const [previewImoveis, setPreviewImoveis] = useState([]);
-
-  function handleFilter(id, imovel) {
-    state.users.forEach((item, index) => {
-      if (item.id === id) {
-        item.id_imoveis.push(imovel);
-      }
+  const previewImoveis = handleFilter();
+  function handleFilter() {
+    var selectedsIds = [];
+    selected.forEach((item) => {
+      item.id_imoveis.forEach((id) => {
+        selectedsIds.push(id);
+      });
     });
+
+    selectedsIds.filter(onlyUnique);
+    var imoveis = [];
+    if (selected.length > 0) {
+      imoveis = state.imoveis.filter((item) => selectedsIds.includes(item.id));
+    }
+
+    return imoveis;
   }
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  function treatAddImovel(values) {
+    var newId = state.imoveis.length + 1;
+    values["id"] = newId;
+
+    var val = {};
+    setState((prevState) => {
+      val = prevState.users;
+      return prevState;
+    });
+
+    const treatedValues = val.map((item) => {
+      if (checkeds.includes(item.id)) {
+        item["id_imoveis"].push(newId);
+        return item;
+      } else return item;
+    });
+
+    setState((prevState) => ({
+      users: treatedValues,
+      imoveis: [...prevState["imoveis"], values],
+    }));
+  }
 
   function treatCheckeds(checked, id) {
     if (checked) {
@@ -58,25 +86,20 @@ export default function Home() {
   return (
     <>
       <Formik
-        initialValues={{ nome: "" }}
+        initialValues={{ nome_imovel: "" }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          if (selected.length > 0) {
-            setState((prevState) => ({
-              ...prevState,
-              imoveis: {
-                ...prevState.imoveis,
-              },
-            }));
+          if (checkeds.length > 0) {
+            treatAddImovel(values);
             resetForm();
           } else {
-            alert("Selecione ao menos um imóvel");
+            alert("Selecione ao menos um usssssssssssssssers");
           }
           setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
           <Form>
-            <Field name="nome" />
+            <Field name="nome_imovel" />
             <button type="submit" disabled={isSubmitting}>
               Submit
             </button>
@@ -93,8 +116,8 @@ export default function Home() {
               onClick={() => {
                 setActive(!active);
                 !active
-                  ? setSelected((prevState) => [...prevState, item.id])
-                  : setSelected(selected.filter((s) => s !== item.id));
+                  ? setSelected((prevState) => [...prevState, item])
+                  : setSelected(selected.filter((s) => s !== item));
               }}
               style={{
                 display: "flex",
@@ -116,12 +139,18 @@ export default function Home() {
       </div>
       {previewImoveis &&
         previewImoveis?.map((item) => {
-          return <p>{item}</p>;
-        })}
-
-      {selected !== [] &&
-        selected?.map((item) => {
-          return item;
+          return (
+            <p>
+              {item.nome_imovel}
+              <div
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  backgroundColor: "white",
+                }}
+              ></div>
+            </p>
+          );
         })}
     </>
   );
