@@ -1,5 +1,8 @@
 yoarajota
 
 sandbox project to study reactjs
- test readme ? asdasdas
- a / durr
+
+goals;
+  study diferents librarys, funcionalitys and best practices
+
+  
