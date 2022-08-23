@@ -14,7 +14,7 @@ const reducer = (state, action) => {
   }
 };
 
-export default function reducer() {
+export default function reducerpage() {
   const [state, func] = useReducer(reducer, initialState);
 
   return (
