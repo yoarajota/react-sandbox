@@ -1,18 +1,5 @@
 import { useReducer } from "react";
 
-const initialTodos = [
-  {
-    id: 1,
-    title: "Todo 1",
-    complete: false,
-  },
-  {
-    id: 2,
-    title: "Todo 2",
-    complete: false,
-  },
-];
-
 const initialState = 0;
 const reducer = (state, action) => {
   switch (action) {
