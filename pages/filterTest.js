@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import onlyUnique from "../public/useful/utils";
 
-export default function Home() {
+export default function filterTest() {
   const [selected, setSelected] = useState([]);
   const [checkeds, setCheckeds] = useState([]);
 
