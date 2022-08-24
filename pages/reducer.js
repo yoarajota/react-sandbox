@@ -13,12 +13,13 @@ const reducer = (state, action) => {
       throw new Error("Unexpected action");
   }
 };
-
+// filha da puta
 export default function reducerpage() {
   const [state, func] = useReducer(reducer, initialState);
 
   return (
     <div>
+  
       <h2 style={{fontSize: state}}>{state}</h2>
       <button onClick={() => func("add")}>
         add
