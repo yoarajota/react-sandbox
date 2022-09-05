@@ -1,4 +1,5 @@
 import React from "react";
+//to comp
 
 function Box(props) {
     return (
