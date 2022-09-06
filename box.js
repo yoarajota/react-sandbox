@@ -1,11 +1,11 @@
 import React from "react";
-//to comp
 
 function Box(props) {
+    console.log(props)
     return (
         <mesh {...props} recieveShadow={true}>
-            <boxBufferGeometry args={props.newArg ?? [1, 2, 0.1]} />
-            <sphereBufferGeometry args={[1, 20, 40]} />
+            <boxBufferGeometry />
+            <boxBufferGeometry args={props.newArg} />
             <meshPhysicalMaterial color={props.color ?? "blue"} />
         </mesh>
     );
